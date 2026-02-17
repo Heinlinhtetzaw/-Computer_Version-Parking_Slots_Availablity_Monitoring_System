@@ -4,7 +4,7 @@ import json
 
 # Use VIDEO instead of IMAGE
 
-VIDEO_PATH = "carPark.mp4"
+VIDEO_PATH = "data/carPark.mp4"
 
 cap = cv2.VideoCapture(VIDEO_PATH)
 

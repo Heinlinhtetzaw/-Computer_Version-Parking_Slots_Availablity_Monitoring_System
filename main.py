@@ -6,9 +6,9 @@ import numpy as np
 
 # Configuration
 
-VIDEO_PATH = "data/cpt.mp4"
+VIDEO_PATH = "data/carPark.mp4"
 JSON_PATH = "parking_slots.json"
-THRESHOLD_PIXEL = 240
+THRESHOLD_PIXEL = 650
 DASHBOARD_WIDTH = 350
 
 # Load Parking Slot Coordinates
