@@ -1,38 +1,35 @@
 import cv2
 import json
+import sys
 
-
-# Use VIDEO instead of IMAGE
-
-VIDEO_PATH = "data/carPark.mp4"
+# Video path from
+if len(sys.argv) < 2:
+    print("Please provide video path.")
+    exit()
+VIDEO_PATH = sys.argv[1]
 
 cap = cv2.VideoCapture(VIDEO_PATH)
-
 if not cap.isOpened():
-    print("Error: Cannot open video.")
+    print("Cannot open video")
     exit()
 
-# Read first frame
 ret, frame = cap.read()
 if not ret:
-    print("Error: Cannot read frame from video.")
+    print("Cannot read frame")
     exit()
 
-image = frame.copy()     # use frame as image
+image = frame.copy()
 clone = image.copy()
-
-cap.release()  #  first frame for slot selection
 
 parking_slots = []
 points = []
 
-# Mouse callback function
+# Mouse callback
 def mouse_click(event, x, y, flags, param):
     global points, parking_slots, image
 
     if event == cv2.EVENT_LBUTTONDOWN:
         points.append((x, y))
-
         cv2.circle(image, (x, y), 5, (0, 0, 255), -1)
 
         if len(points) == 2:
@@ -44,16 +41,19 @@ def mouse_click(event, x, y, flags, param):
             w = abs(x2 - x1)
             h = abs(y2 - y1)
 
-            parking_slots.append((x_min, y_min, w, h))
+            parking_slots.append({
+                "x": x_min,
+                "y": y_min,
+                "w": w,
+                "h": h
+            })
 
             cv2.rectangle(image, (x_min, y_min),
                           (x_min + w, y_min + h),
                           (0, 255, 0), 2)
-
             print(f"Slot Added: {(x_min, y_min, w, h)}")
 
             points = []
-
 
 cv2.namedWindow("Select Parking Slots")
 cv2.setMouseCallback("Select Parking Slots", mouse_click)
