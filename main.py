@@ -7,9 +7,9 @@ import subprocess
 from tkinter import Tk, simpledialog
 from tkinter.filedialog import askopenfilename
 
-# ==============================
-# DEFAULT CONFIG
-# ==============================
+
+# Default Configuration
+
 DEFAULT_THRESHOLD = 650
 THRESHOLD_PIXEL = DEFAULT_THRESHOLD
 JSON_PATH = "parking_slots.json"
@@ -18,9 +18,9 @@ VIDEO_PATH = None
 cap = None
 parking_slots = []
 
-# ==============================
-# LOAD PARKING SLOTS
-# ==============================
+
+# Load Parking Slots
+
 def load_slots():
     global parking_slots
 
@@ -39,9 +39,9 @@ def load_slots():
     else:
         parking_slots.clear()
 
-# ==============================
-# SELECT VIDEO
-# ==============================
+
+# Select Video
+
 def select_video():
     global VIDEO_PATH, cap
 
@@ -53,9 +53,9 @@ def select_video():
         cap = cv2.VideoCapture(VIDEO_PATH)
         print("Video Loaded:", VIDEO_PATH)
 
-# ==============================
-# OPEN SLOT SELECTOR
-# ==============================
+
+# Open Slot Selector(Json)
+
 def open_slot_selector():
     if VIDEO_PATH is None:
         print("Please load video first.")
@@ -70,9 +70,9 @@ def open_slot_selector():
 
     load_slots()
 
-# ==============================
-# INPUT EXACT THRESHOLD
-# ==============================
+
+# Input exact threshold
+
 def input_threshold():
     global THRESHOLD_PIXEL
 
@@ -88,9 +88,9 @@ def input_threshold():
         THRESHOLD_PIXEL = value
         print("Threshold set to:", THRESHOLD_PIXEL)
 
-# ==============================
-# CONTROL PANEL CLICK EVENTS
-# ==============================
+
+# Control Panel Click Event
+
 def control_mouse(event, x, y, flags, param):
     if event == cv2.EVENT_LBUTTONDOWN:
 
@@ -103,9 +103,9 @@ def control_mouse(event, x, y, flags, param):
         if 440 < x < 580 and 20 < y < 60:
             input_threshold()
 
-# ==============================
-# CREATE WINDOWS
-# ==============================
+
+# Create Windows
+
 cv2.namedWindow("Result Panel", cv2.WINDOW_NORMAL)
 cv2.namedWindow("Dashboard", cv2.WINDOW_NORMAL)
 cv2.namedWindow("Control Panel", cv2.WINDOW_NORMAL)
@@ -115,9 +115,9 @@ cv2.setMouseCallback("Control Panel", control_mouse)
 
 load_slots()
 
-# ==============================
-# MAIN LOOP
-# ==============================
+
+# Main Loop
+
 while True:
 
     available_count = 0
@@ -130,9 +130,9 @@ while True:
     occupied_min = 0
     suggested_average = 0
 
-    # ------------------------------
-    # RESULT PANEL
-    # ------------------------------
+
+    # Result Panel
+
     if cap is not None and cap.isOpened():
 
         ret, frame = cap.read()
@@ -195,9 +195,9 @@ while True:
     else:
         cv2.imshow("Result Panel", np.zeros((480, 640, 3), dtype=np.uint8))
 
-    # ------------------------------
-    # DASHBOARD
-    # ------------------------------
+
+    # Dashboard
+
     dashboard = np.zeros((150, 600, 3), dtype=np.uint8)
 
     cv2.putText(dashboard, f"TOTAL SLOTS: {len(parking_slots)}", (20, 40),
@@ -211,9 +211,9 @@ while True:
 
     cv2.imshow("Dashboard", dashboard)
 
-    # ------------------------------
-    # CONTROL PANEL
-    # ------------------------------
+
+    # Control Panel
+
     control_ui = np.zeros((420, 600, 3), dtype=np.uint8)
 
     # Buttons
@@ -259,7 +259,7 @@ while True:
                 (255, 0, 255),
                 2)
 
-    # 🔥 Decision Rule Instruction
+    #  Decision Rule Instruction
     cv2.putText(control_ui, "Decision Rule:",
                 (20, 290),
                 cv2.FONT_HERSHEY_SIMPLEX,

@@ -2,7 +2,7 @@ import cv2
 import json
 import sys
 
-# Video path from
+# Video path fromm control panel
 if len(sys.argv) < 2:
     print("Please provide video path.")
     exit()
